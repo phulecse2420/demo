@@ -1,0 +1,10 @@
+INSERT INTO book(book_name) VALUES('Book 1');
+INSERT INTO book(book_name) VALUES('Book 2');
+INSERT INTO book(book_name) VALUES('Book 3');
+INSERT INTO book(book_name) VALUES('Book 4');
+INSERT INTO book(book_name) VALUES('Book 5');
+INSERT INTO book(book_name) VALUES('Book 6');
+INSERT INTO book(book_name) VALUES('Book 7');
+INSERT INTO book(book_name) VALUES('Book 8');
+INSERT INTO book(book_name) VALUES('Book 9');
+INSERT INTO book(book_name) VALUES('Book 10');
