@@ -32,20 +32,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatusCode status,
-                                                                  WebRequest request) {
+    protected  ResponseEntity<Object> handleMethodArgumentNotValid(
+        MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var errors = ex.getBindingResult().getAllErrors()
-                                          .stream()
-                                          .filter(e -> e instanceof FieldError)
-                                          .map(e -> (FieldError) e)
-                                          .map(fe -> new Error(fe.getDefaultMessage(), fe.getField()))
-                                          .toList();
+            .stream()
+            .filter(e -> e instanceof FieldError)
+            .map(e -> (FieldError) e)
+            .map(fe -> new Error(fe.getDefaultMessage(), fe.getField()))
+            .toList();
 
         return ResponseEntity.badRequest()
-                             .body(GenericResponse.builder()
-                                                  .status(HttpStatus.BAD_REQUEST.value())
-                                                  .errors(errors));
+            .body(GenericResponse.builder()
+                      .status(HttpStatus.BAD_REQUEST.value())
+                      .message("Invalid request!")
+                      .errors(errors)
+                      .build());
     }
 }

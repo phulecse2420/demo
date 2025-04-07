@@ -9,13 +9,13 @@ import lombok.Value;
 @Builder
 @Value
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GenericResponse {
+public class GenericResponse<T> {
 
     @Builder.Default
     int status = 200;
 
     String            message;
-    Object            data;
+    T                 data;
     Collection<Error> errors;
 
 }
