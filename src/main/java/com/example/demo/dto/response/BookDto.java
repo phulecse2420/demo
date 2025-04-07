@@ -1,16 +1,17 @@
 package com.example.demo.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Builder;
+import lombok.Value;
 
-@Getter
-@Setter
-@ToString
+@Builder
+@Value
 public class BookDto {
 
-    private Long id;
-    private String bookName;
-    private String author;
-    private Double price;
+    Long    id;
+    String  bookName;
+    String  author;
+    Double  price;
+    String  createdDate;
+    String  updatedDate;
+    boolean deleted;
 }

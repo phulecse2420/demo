@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: demo
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/postgres?serverTimezone=UTC
+    driver-class-name: org.postgresql.Driver
+    username: postgres_user
+    password: postgres_password
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 10
+      connection-test-query: SELECT 1
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+
+  doc:
+    api-docs:
+      path: /api-docs
+    swagger-ui:
+      path: /swagger-ui.html

@@ -1,10 +1,8 @@
 package com.example.demo.aspect;
 
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.Set;
 import java.util.stream.IntStream;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,6 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 @Aspect
 @Component
 public class LoggingAspect {
@@ -22,7 +24,7 @@ public class LoggingAspect {
     private static final Set<String> ignoreParams = Set.of("password", "newPassword");
 
     @Around("execution(public * com.example.demo.controllers..*.*(..))")
-    public Object logAroundControllerMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logAroundControllerMethod (ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String clazz = joinPoint.getTarget().getClass().getSimpleName();
         String method = signature.getName();
@@ -42,44 +44,43 @@ public class LoggingAspect {
 
         msg.setLength(length);
         msg.append("  END in [").append(end - start).append("] ms.");
-        if (!(retVal instanceof ModelAndView)) {
-            msg.append(" Result: [").append(retVal).append(']');
-        }
+        msg.append(" Result: [").append(retVal).append(']');
         log.info("{}", msg);
 
         return retVal;
     }
 
-    private static void appendParameters(ProceedingJoinPoint joinPoint, MethodSignature signature,
-        StringBuilder msg) {
+    private static void appendParameters (ProceedingJoinPoint joinPoint, MethodSignature signature,
+                                          StringBuilder msg) {
         String[] paramNames = signature.getParameterNames();
-        if (null != paramNames && paramNames.length > 0) {
+        if ( null != paramNames && paramNames.length > 0 ) {
             Object[] args = joinPoint.getArgs();
             StringBuilder paramMsg = new StringBuilder();
             IntStream.range(0, paramNames.length).forEach((int i) -> {
                 Object arg = args[i];
-                if (arg instanceof ServletResponse || arg instanceof ServletRequest
-                    || arg instanceof HttpSession || arg instanceof MultipartFile
-                    || ignoreParams.contains(paramNames[i])) {
+                if ( arg instanceof ServletResponse || arg instanceof ServletRequest
+                     || arg instanceof HttpSession || arg instanceof MultipartFile
+                     || ignoreParams.contains(paramNames[i]) ) {
                     return;
                 }
-                if (paramMsg.length() > 0) {
+                if ( !paramMsg.isEmpty() ) {
                     paramMsg.append(", ");
                 }
                 paramMsg.append(paramNames[i]).append("=").append(arg);
             });
-            if (paramMsg.length() > 0) {
+            if ( !paramMsg.isEmpty() ) {
                 msg.append(" Parameters: [").append(paramMsg).append("]");
             }
         }
     }
 
-    private static Object executeMethod(ProceedingJoinPoint joinPoint, String clazz, String method,
-        Logger log) throws Throwable {
+    private static Object executeMethod (ProceedingJoinPoint joinPoint, String clazz, String method,
+                                         Logger log) throws Throwable {
         Object retVal;
         try {
             retVal = joinPoint.proceed();
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             log.error("{}.{} exception.", clazz, method, e);
             throw e;
         }

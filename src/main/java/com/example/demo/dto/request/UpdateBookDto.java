@@ -14,7 +14,9 @@ public class UpdateBookDto {
 
     @NotBlank(message = "Book name is required")
     private String bookName;
+
     private String author;
+
     @Min(value = 1, message = "Price should be a positive number")
     @NotNull(message = "Price is required")
     private Double price;

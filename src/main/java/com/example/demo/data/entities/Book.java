@@ -15,20 +15,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class Book {
+public class Book extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "book_id")
+    private Long   id;
     @Column(name = "book_name")
     private String bookName;
     private String author;
     private Double price;
-
-    public Book(String bookName) {
-        this.bookName = bookName;
-    }
 
 }
